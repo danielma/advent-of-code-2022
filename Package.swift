@@ -8,8 +8,8 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "advent-of-code-2022",
-            targets: ["advent-of-code-2022"]),
+            name: "AOC",
+            targets: ["AOC"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -19,10 +19,10 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "advent-of-code-2022",
+            name: "AOC",
             dependencies: []),
         .testTarget(
-            name: "advent-of-code-2022Tests",
-            dependencies: ["advent-of-code-2022"]),
+            name: "AOCTests",
+            dependencies: ["AOC"]),
     ]
 )

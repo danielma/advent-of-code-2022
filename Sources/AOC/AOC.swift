@@ -1,4 +1,4 @@
-public struct advent_of_code_2022 {
+public struct AOC {
     public private(set) var text = "Hello, World!"
 
     public init() {
