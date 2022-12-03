@@ -18,8 +18,7 @@ import AOC
 
 class Day01Spec: QuickSpec {
   override func spec() {
-    it("part 1, test iput") {
-      let input = """
+    let testInput = """
 1000
 2000
 3000
@@ -35,18 +34,36 @@ class Day01Spec: QuickSpec {
 
 10000
 """
-      
-      expect(Day01.mostCalories(input)).to(equal(24000))
+    
+    let thisSourceFile = URL(fileURLWithPath: #file)
+    let thisDirectory = thisSourceFile.deletingLastPathComponent()
+    let resourceURL = thisDirectory.appendingPathComponent("Inputs/day01.txt")
+    
+    let realInput = try! String(contentsOf: resourceURL)
+    
+    it("part 1, test iput") {
+      expect(Day01.mostCalories(testInput)).to(equal(24000))
     }
     
     it("part 1, real input") {
-      let thisSourceFile = URL(fileURLWithPath: #file)
-      let thisDirectory = thisSourceFile.deletingLastPathComponent()
-      let resourceURL = thisDirectory.appendingPathComponent("Inputs/day01.txt")
-      
-      let input = try! String(contentsOf: resourceURL)
-      
-      expect(Day01.mostCalories(input)).to(equal(69528))
+      expect(Day01.mostCalories(realInput)).to(equal(69528))
+    }
+    /*
+     By the time you calculate the answer to the Elves' question, they've already realized that the Elf carrying the most Calories of food might eventually run out of snacks.
+
+     To avoid this unacceptable situation, the Elves would instead like to know the total Calories carried by the top three Elves carrying the most Calories. That way, even if one of those Elves runs out of snacks, they still have two backups.
+
+     In the example above, the top three Elves are the fourth Elf (with 24000 Calories), then the third Elf (with 11000 Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is 45000.
+
+     Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
+     */
+    
+    it("part 2, test input") {
+      expect(Day01.topThreeCalories(testInput)).to(equal(45000))
+    }
+    
+    it("part 2, real input") {
+      expect(Day01.topThreeCalories(realInput)).to(equal(206152))
     }
   }
 }
