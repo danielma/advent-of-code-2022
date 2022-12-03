@@ -1,7 +1,7 @@
-import Quick
+import AOC
 import Foundation
 import Nimble
-import AOC
+import Quick
 
 /*
  This list represents the Calories of the food carried by five Elves:
@@ -19,32 +19,32 @@ import AOC
 class Day01Spec: QuickSpec {
   override func spec() {
     let testInput = """
-1000
-2000
-3000
+      1000
+      2000
+      3000
 
-4000
+      4000
 
-5000
-6000
+      5000
+      6000
 
-7000
-8000
-9000
+      7000
+      8000
+      9000
 
-10000
-"""
-    
+      10000
+      """
+
     let thisSourceFile = URL(fileURLWithPath: #file)
     let thisDirectory = thisSourceFile.deletingLastPathComponent()
     let resourceURL = thisDirectory.appendingPathComponent("Inputs/day01.txt")
-    
+
     let realInput = try! String(contentsOf: resourceURL)
-    
+
     it("part 1, test iput") {
       expect(Day01.mostCalories(testInput)).to(equal(24000))
     }
-    
+
     it("part 1, real input") {
       expect(Day01.mostCalories(realInput)).to(equal(69528))
     }
@@ -57,11 +57,11 @@ class Day01Spec: QuickSpec {
 
      Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
      */
-    
+
     it("part 2, test input") {
       expect(Day01.topThreeCalories(testInput)).to(equal(45000))
     }
-    
+
     it("part 2, real input") {
       expect(Day01.topThreeCalories(realInput)).to(equal(206152))
     }
