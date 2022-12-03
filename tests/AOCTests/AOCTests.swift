@@ -1,11 +1,11 @@
-import XCTest
-@testable import AOC
+import Quick
+import Nimble
+import AOC
 
-final class AOCTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(AOC().text, "Hello, World!")
-    }
+class AOCSpec: QuickSpec {
+  override func spec() {
+//    it("hello!") {
+//      expect(Day01().yolo).to(equal("Howy"))
+//    }
+  }
 }
