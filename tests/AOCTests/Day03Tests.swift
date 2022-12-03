@@ -27,5 +27,13 @@ class Day03Spec: QuickSpec {
     it("part 1, real input") {
       expect(Day03.prioritiesSum(realInput)).to(equal(8243))
     }
+
+    it("part 2, test input") {
+      expect(Day03.groupPrioritiesSum(testInput)).to(equal(70))
+    }
+
+    it("part 2, real input") {
+      expect(Day03.groupPrioritiesSum(realInput)).to(equal(2631))
+    }
   }
 }
