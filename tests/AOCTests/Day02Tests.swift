@@ -18,11 +18,19 @@ class Day02Spec: QuickSpec {
     let realInput = try! String(contentsOf: resourceURL)
 
     it("part 1, test input") {
-      expect(Day02.score(testInput)).to(equal(15))
+      expect(Day02.scoreWithDeterministicResponses(testInput)).to(equal(15))
     }
 
     it("part 1, real input") {
-      expect(Day02.score(realInput)).to(equal(11767))
+      expect(Day02.scoreWithDeterministicResponses(realInput)).to(equal(11767))
+    }
+
+    it("part 2, test input") {
+      expect(Day02.scoreWithSecretiveResponses(testInput)).to(equal(12))
+    }
+    
+    it("part 2, real input") {
+      expect(Day02.scoreWithSecretiveResponses(realInput)).to(equal(13886))
     }
   }
 }
