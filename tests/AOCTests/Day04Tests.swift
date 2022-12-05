@@ -28,12 +28,12 @@ class Day04Spec: QuickSpec {
       expect(Day04.fullSubsetPairs(realInput)).to(equal(483))
     }
 
-    xit("part 2, test input") {
-      // expect(Day04.groupPrioritiesSum(testInput)).to(equal(70))
+    it("part 2, test input") {
+      expect(Day04.partialSubsetPairs(testInput)).to(equal(4))
     }
 
-    xit("part 2, real input") {
-      // expect(Day04.groupPrioritiesSum(realInput)).to(equal(2631))
+    it("part 2, real input") {
+      expect(Day04.partialSubsetPairs(realInput)).to(equal(874))
     }
   }
 }
