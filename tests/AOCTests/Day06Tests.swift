@@ -46,16 +46,38 @@ class Day06Spec: QuickSpec {
       expect(Day06.packetStartIndex(realInput)).to(equal(1109))
     }
 
-    // it("part 2, test input") {
-    //   let crateMessage = String(Day05.execute9001Moves(testInput).map { $0.first! })
+    it("part 2, first test") {
+      let testInput = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
 
-    //   expect(crateMessage).to(equal("MCD"))
-    // }
+      expect(Day06.messageStartIndex(testInput)).to(equal(19))
+    }
 
-    // it("part 2, real input") {
-    //   let crateMessage = String(Day05.execute9001Moves(realInput).map { $0.first! })
+    it("part 2, second test") {
+      let testInput = "bvwbjplbgvbhsrlpgdmjqwftvncz"
 
-    //   expect(crateMessage).to(equal("CNSFCGJSM"))
-    // }
+      expect(Day06.messageStartIndex(testInput)).to(equal(23))
+    }
+
+    it("part 2, third test") {
+      let testInput = "nppdvjthqldpwncqszvftbrmjlhg"
+
+      expect(Day06.messageStartIndex(testInput)).to(equal(23))
+    }
+
+    it("part 2, fourth test") {
+      let testInput = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"
+
+      expect(Day06.messageStartIndex(testInput)).to(equal(29))
+    }
+
+    it("part 2, fifth test") {
+      let testInput = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
+
+      expect(Day06.messageStartIndex(testInput)).to(equal(26))
+    }
+
+    it("part 2, real input") {
+      expect(Day06.messageStartIndex(realInput)).to(equal(3965))
+    }
   }
 }
