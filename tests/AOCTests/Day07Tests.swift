@@ -51,15 +51,41 @@ class Day07Spec: QuickSpec {
     }
 
     it("part 1, test input") {
-      let dirs = Day07.moderatelySizedDirs(testInput)
+      let dirs = Day07.collectDirsOfSize(Day07.dirTree(testInput))
 
       expect(dirs.reduce(0) { $0 + $1.size }).to(equal(95437))
     }
 
     it("part 1, real input") {
-      let dirs = Day07.moderatelySizedDirs(realInput)
+      let dirs = Day07.collectDirsOfSize(Day07.dirTree(realInput))
 
       expect(dirs.reduce(0) { $0 + $1.size }).to(equal(1_334_506))
+    }
+
+    it("part 2, test input") {
+      let fsTotalSpace = 70_000_000
+      let fsNeededSpace = 30_000_000
+      let tree = Day07.dirTree(testInput)
+
+      let minSpaceToClear = tree.size - (fsTotalSpace - fsNeededSpace)
+
+      let dirs = Day07.collectDirsOfSize(tree, range: minSpaceToClear...)
+      let smallestWorkableDir = dirs.sorted { $0.size < $1.size }.first!
+
+      expect(smallestWorkableDir.size).to(equal(24_933_642))
+    }
+
+    it("part 2, real input") {
+      let fsTotalSpace = 70_000_000
+      let fsNeededSpace = 30_000_000
+      let tree = Day07.dirTree(realInput)
+
+      let minSpaceToClear = tree.size - (fsTotalSpace - fsNeededSpace)
+
+      let dirs = Day07.collectDirsOfSize(tree, range: minSpaceToClear...)
+      let smallestWorkableDir = dirs.sorted { $0.size < $1.size }.first!
+
+      expect(smallestWorkableDir.size).to(equal(7_421_137))
     }
   }
 }

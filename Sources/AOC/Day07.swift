@@ -60,14 +60,15 @@ public class Dir: FSItem, ReflectedStringConvertible {
 }
 
 public struct Day07 {
-  public static func moderatelySizedDirs(_ input: String, limit: Int = 100000) -> [Dir] {
-    let tree = dirTree(input)
+  public static func collectDirsOfSize(
+    _ tree: Dir, range: any RangeExpression<Int> = 0...100000
+  ) -> [Dir] {
     var dirsWeCareAbout: [Dir] = []
 
     walk(tree) { dir in
       guard let dir = dir as? Dir else { return }
 
-      if dir.size < limit { dirsWeCareAbout.append(dir) }
+      if range.contains(dir.size) { dirsWeCareAbout.append(dir) }
     }
 
     return dirsWeCareAbout
@@ -78,9 +79,9 @@ public struct Day07 {
       if let dir = item as? Dir {
         walk(dir, forEach: forEach)
       }
-
-      forEach(item)
     }
+
+    forEach(tree)
   }
 
   public static func dirTree(_ input: String) -> Dir {
