@@ -38,14 +38,50 @@ public struct Day08 {
     return visibleFromAnyDirection(map).count
   }
 
+  public static func scenicScore(_ point: Point, _ map: TreeMap) -> Int {
+    let treeAtPoint = map[point]!
+    let mapMax = map.keys.max()!
+
+    let distances = Compass.allCases.map { dir in
+      var treesToConsider: [Int]
+
+      switch dir {
+      case .north:
+        treesToConsider = Array(stride(from: point.y - 1, to: -1, by: -1))
+      case .east:
+        treesToConsider = Array(stride(from: point.x + 1, to: mapMax.x + 1, by: 1))
+      case .south:
+        treesToConsider = Array(stride(from: point.y + 1, to: mapMax.y + 1, by: 1))
+      case .west:
+        treesToConsider = Array(stride(from: point.x - 1, to: -1, by: -1))
+      }
+
+      let lookAxis: Compass = [Compass.west, Compass.east].contains(dir) ? .west : .north
+
+      let blockIndex =
+        treesToConsider.firstIndex(where: { axis in
+          let treePoint = lookAxis == .west ? Point(axis, point.y) : Point(point.x, axis)
+          let tree = map[treePoint]!
+
+          return tree >= treeAtPoint
+        })
+
+      if let blockIndex {
+        return blockIndex + 1
+      } else {
+        return treesToConsider.endIndex
+      }
+    }
+
+    return distances.reduce(1, *)
+  }
+
+  public static func optimalSceneicScore(_ map: TreeMap) -> Int {
+    return map.keys.map { scenicScore($0, map) }.max()!
+  }
+
   private static func visibleFromAnyDirection(_ map: TreeMap) -> Set<Point> {
     let allDirections = Compass.allCases.map { visibleFrom($0, map) }
-    // Compass.allCases.forEach { dir in
-    //   print(dir)
-    //   let vis = visibleFrom(dir, map).sorted()
-    //   print("I count \(vis.count)")
-    //   print(vis)
-    // }
     return Set(allDirections.joined())
   }
 

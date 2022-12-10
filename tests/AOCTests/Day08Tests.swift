@@ -66,5 +66,25 @@ class Day08Spec: QuickSpec {
     it("part 1, real input") {
       expect(Day08.treesVisibleFromOutside(realInput)).to(equal(1763))
     }
+
+    it("part 2, test first tree") {
+      let treeMap = Day08.treeMap(testInput)
+      expect(Day08.scenicScore(Day08.Point(2, 1), treeMap)).to(equal(4))
+    }
+
+    it("part 2, test second tree") {
+      let treeMap = Day08.treeMap(testInput)
+      expect(Day08.scenicScore(Day08.Point(2, 3), treeMap)).to(equal(8))
+    }
+
+    it("part 2, test optimal tree") {
+      let treeMap = Day08.treeMap(testInput)
+      expect(Day08.optimalSceneicScore(treeMap)).to(equal(8))
+    }
+
+    it("part 2, real input") {
+      let treeMap = Day08.treeMap(realInput)
+      expect(Day08.optimalSceneicScore(treeMap)).to(equal(671160))
+    }
   }
 }
