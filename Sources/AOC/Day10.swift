@@ -71,6 +71,27 @@ public struct Day10 {
       return signals
     }
 
+    public func drawScreen(_ input: String) -> String {
+      var screen: [String] = [""]
+      exec(input) { tickNo in
+        let row = (tickNo - 1) / 40
+
+        if (screen.endIndex - 1) < row { screen.append("") }
+
+        let spritePos = registerX
+        let screenRow = screen[row]
+        let screenPos = screenRow.count
+
+        if abs(spritePos - screenPos) < 2 {
+          screen[row].append("#")
+        } else {
+          screen[row].append(".")
+        }
+      }
+
+      return screen.joined(separator: "\n")
+    }
+
     private func tick() {
       let needed = operationTickTime(currentOperation)
 

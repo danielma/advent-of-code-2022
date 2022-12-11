@@ -192,5 +192,37 @@ During the 220th cycle, register X has the value 18, so the signal strength is 2
       expect(signals.values.reduce(0, +)).to(equal(14420))
 
     }
+
+    it("part 2, test input") {
+      let cpu = Day10.CPU()
+      let screen = cpu.drawScreen(testInput)
+
+      let expectedOutput = """
+        ##..##..##..##..##..##..##..##..##..##..
+        ###...###...###...###...###...###...###.
+        ####....####....####....####....####....
+        #####.....#####.....#####.....#####.....
+        ######......######......######......####
+        #######.......#######.......#######.....
+        """
+
+      expect(screen).to(equal(expectedOutput))
+    }
+
+    it("part 2, real input") {
+      let cpu = Day10.CPU()
+      let screen = cpu.drawScreen(realInput)
+
+      let expectedOutput = """
+        ###...##..#....###..###..####..##..#..#.
+        #..#.#..#.#....#..#.#..#....#.#..#.#..#.
+        #..#.#....#....#..#.###....#..#..#.#..#.
+        ###..#.##.#....###..#..#..#...####.#..#.
+        #.#..#..#.#....#.#..#..#.#....#..#.#..#.
+        #..#..###.####.#..#.###..####.#..#..##..
+        """
+
+      expect(screen).to(equal(expectedOutput))
+    }
   }
 }
