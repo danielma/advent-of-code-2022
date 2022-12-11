@@ -6,43 +6,11 @@ public struct Day09 {
     let distance: Int
   }
 
-  enum PlaneObject {
-    case ropeHead
-    case ropeTail
-  }
+  public class Rope {
+    var locations: [Point]
 
-  class InfinitePlane {
-    var map: [[Int]] = []
-    var ropeHead: Point
-    var ropeTail: Point
-
-    init(ropeHead: Point, ropeTail: Point) {
-      self.ropeHead = ropeHead
-      self.ropeTail = ropeTail
-    }
-
-    convenience init() {
-      self.init(ropeHead: Point(0, 0), ropeTail: Point(0, 0))
-    }
-
-    public func placeObject(_ object: PlaneObject, _ point: Point) {
-      //   if point.y > map.endIndex {
-      //     (map.endIndex...point.y).forEach { _ in map.append([]) }
-      //   }
-
-      //   var row = map[point.y]
-
-      //   if point.x > row.endIndex {
-      //     (row.endIndex...point.x).forEach { _ in row.append([]) }
-      //   }
-    }
-
-    public func moveRopeHead(_ direction: Compass) {
-      ropeHead = ropeHead.move(direction)
-    }
-
-    public func placeRopeTail(_ at: Point) {
-      ropeTail = at
+    public init(length: Int) {
+      self.locations = Array.init(repeating: Point(0, 0), count: length)
     }
   }
 
@@ -50,23 +18,28 @@ public struct Day09 {
     // print(input)
   }
 
-  public static func visitedRopeLocations(_ input: String) -> [Point] {
+  public static func visitedTailLocations(_ input: String, rope: Rope) -> [Point] {
     let moves = Utils.cleanLines(input).map(parseStep(_:))
-    var ropeHead = Point(0, 0)
-    var ropeTail = Point(0, 0)
     var ropeTailLocations: [Point] = []
 
     moves.forEach { move in
       debugPrint(move)
 
       xTimes(move.distance) {
-        ropeHead = ropeHead.move(move.direction)
+        for (index, location) in rope.locations.enumerated() {
+          if index == 0 {
+            rope.locations[index] = rope.locations[index].move(move.direction)
+          } else {
+            rope.locations[index] = tailFollow(
+              head: rope.locations[index - 1], tail: rope.locations[index])
+          }
 
-        ropeTail = tailFollow(head: ropeHead, tail: ropeTail)
+          debugPrint(rope.locations)
+        }
 
-        ropeTailLocations.append(ropeTail)
+        ropeTailLocations.append(rope.locations.last!)
 
-        debugPrint((head: ropeHead, tail: ropeTail))
+        // debugPrint((head: ropeHead, tail: ropeTail))
       }
     }
 
