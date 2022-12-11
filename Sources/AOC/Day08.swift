@@ -1,37 +1,7 @@
 import Foundation
 
 public struct Day08 {
-  public struct Point: Hashable, CustomStringConvertible, Comparable {
-    let x: Int
-    let y: Int
-
-    public init(x: Int, y: Int) {
-      self.x = x
-      self.y = y
-    }
-
-    public init(_ x: Int, _ y: Int) {
-      self.x = x
-      self.y = y
-    }
-
-    public var description: String {
-      return "(x: \(x), y: \(y))"
-    }
-
-    public static func < (lhs: Point, rhs: Point) -> Bool {
-      if lhs.y != rhs.y { return lhs.y < rhs.y } else { return lhs.x < rhs.x }
-    }
-  }
-
   public typealias TreeMap = [Point: Int]
-
-  public enum Compass: CaseIterable {
-    case north
-    case east
-    case south
-    case west
-  }
 
   public static func treesVisibleFromOutside(_ input: String) -> Int {
     let map = treeMap(input)
