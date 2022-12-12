@@ -49,3 +49,11 @@ extension ReflectedStringConvertible {
     return str
   }
 }
+
+extension Int {
+  func times(action: (Int) -> Void) {
+    for time in 1...self {
+      action(time)
+    }
+  }
+}
