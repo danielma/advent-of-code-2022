@@ -1,3 +1,4 @@
+import BigInt
 import Foundation
 
 public struct Day11 {
@@ -11,7 +12,7 @@ public struct Day11 {
     let lines = source.split(separator: "\n")
 
     let startItems = lines[1].split(separator: ": ")[1].split(separator: ", ").map {
-      Int($0)!
+      BigInt($0)!
     }
     let operationSource = lines[2].split(separator: ": new = ")[1]
     let operationParts = operationSource.split(separator: " ")
@@ -33,17 +34,20 @@ public struct Day11 {
     let testTrueMonkey = Int(lines[4].split(separator: ": throw to monkey ")[1])!
     let testFalseMonkey = Int(lines[5].split(separator: ": throw to monkey ")[1])!
 
-    let throwDestination = { (value: Int) in
-      value % testDivisor == 0 ? testTrueMonkey : testFalseMonkey
+    let throwDestination = { (value: BigInt) in
+      (value % BigInt(testDivisor)).isZero ? testTrueMonkey : testFalseMonkey
     }
 
-    return Monkey(items: startItems, operation: operation, throwDestination: throwDestination)
+    return Monkey(
+      items: startItems, operation: operation, throwDestination: throwDestination,
+      testDivisor: testDivisor)
   }
 
   public struct Monkey {
-    public var items: [Int]
+    public var items: [BigInt]
     public let operation: MonkeyOperation
-    public let throwDestination: (Int) -> Int
+    public let throwDestination: (BigInt) -> Int
+    public let testDivisor: Int
 
     public var totalInspected = 0
   }
@@ -54,14 +58,39 @@ public struct Day11 {
     case squared
   }
 
-  public static func doARound(_ incomingMonkeys: [Monkey]) -> [Monkey] {
+  public static func monkeyBusiness(_ incomingMonkeys: [Monkey], rounds: Int) -> Int {
+    let monkeys = (1...rounds).reduce(incomingMonkeys) { ms, _ in
+      Day11.doARound(ms, divideWorryBy: 3)
+    }
+    return mostActiveMonkeys(monkeys)
+  }
+
+  public static func monkeyBusinessWithoutWorryReduction(_ incomingMonkeys: [Monkey], rounds: Int)
+    -> Int
+  {
+    let monkeys = (1...rounds).reduce(incomingMonkeys) { ms, _ in
+      return Day11.doARound(ms)
+    }
+    return mostActiveMonkeys(monkeys)
+  }
+
+  private static func mostActiveMonkeys(_ monkeys: [Monkey], limit: Int = 2) -> Int {
+    let mostActiveMonkeys = Array(monkeys.map(\.totalInspected).sorted().reversed())
+    return mostActiveMonkeys.prefix(limit).reduce(1, *)
+  }
+
+  public static func doARound(_ incomingMonkeys: [Monkey], divideWorryBy: Double = 1) -> [Monkey] {
     var monkeys = incomingMonkeys
+    let monkeysLcm = BigInt(lcm(incomingMonkeys.map(\.testDivisor)))
 
     for index in monkeys.indices {
       let monkey = monkeys[index]
       for item in monkey.items {
-        let nextWorry = Day11.performOperation(monkey.operation, old: item)
-        let reducedWorry = Int(floor(Double(nextWorry) / 3))
+        let nextWorry = performOperation(monkey.operation, old: item)
+        let reducedWorry =
+          divideWorryBy > 1
+          ? nextWorry / BigInt(divideWorryBy)
+          : nextWorry % monkeysLcm
         let throwDest = monkey.throwDestination(reducedWorry)
 
         monkeys[index].totalInspected += 1
@@ -74,12 +103,12 @@ public struct Day11 {
     return monkeys
   }
 
-  public static func performOperation(_ operation: MonkeyOperation, old: Int) -> Int {
+  public static func performOperation(_ operation: MonkeyOperation, old: BigInt) -> BigInt {
     switch operation {
     case .multiplied(by: let mult):
-      return old * mult
+      return old * BigInt(mult)
     case .plus(let adder):
-      return old + adder
+      return old + BigInt(adder)
     case .squared:
       return old * old
     }
@@ -89,5 +118,24 @@ public struct Day11 {
     return stride(from: 0, to: arr.count, by: size).map {
       Array(arr[$0..<min($0 + size, arr.count)])
     }
+  }
+
+  private static func lcm(_ ofNums: [Int]) -> Int {
+    return ofNums.reduce(ofNums[0]) { lcm($0, $1) }
+  }
+
+  private static func lcm(_ lhs: Int, _ rhs: Int) -> Int {
+    return (lhs * rhs) / gcf(lhs, rhs)
+  }
+
+  private static func gcf(_ lhs: Int, _ rhs: Int) -> Int {
+    var attemptNumber = min(lhs, rhs)
+
+    while attemptNumber > 0 {
+      if lhs % attemptNumber == 0 && rhs % attemptNumber == 0 { return attemptNumber }
+      attemptNumber -= 1
+    }
+
+    fatalError("No GCF for \(lhs) and \(rhs)")
   }
 }

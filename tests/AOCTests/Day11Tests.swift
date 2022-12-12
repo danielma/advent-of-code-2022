@@ -73,7 +73,7 @@ class Day11Spec: QuickSpec {
 
     it("part 1, test input, one round only") {
       var monkeys = Day11.parseMonkeys(testInput)
-      monkeys = Day11.doARound(monkeys)
+      monkeys = Day11.doARound(monkeys, divideWorryBy: 3)
 
       expect(monkeys[0].items).to(equal([20, 23, 27, 26]))
       expect(monkeys[1].items).to(equal([2080, 25, 167, 207, 401, 1046]))
@@ -82,22 +82,28 @@ class Day11Spec: QuickSpec {
     }
 
     it("part 1, test input, the real calculations") {
-      var monkeys = Day11.parseMonkeys(testInput)
-      monkeys = (1...20).reduce(monkeys) { ms, _ in Day11.doARound(ms) }
+      let monkeys = Day11.parseMonkeys(testInput)
+      let business = Day11.monkeyBusiness(monkeys, rounds: 20)
 
-      expect(monkeys.map(\.totalInspected)).to(equal([101, 95, 7, 105]))
-
-      let mostActiveMonkeys = Array(monkeys.map(\.totalInspected).sorted().reversed())
-
-      expect(mostActiveMonkeys[0...1].reduce(1, *)).to(equal(10605))
+      expect(business).to(equal(10605))
     }
 
     it("part 1, real input") {
-      var monkeys = Day11.parseMonkeys(realInput)
-      monkeys = (1...20).reduce(monkeys) { ms, _ in Day11.doARound(ms) }
+      let monkeys = Day11.parseMonkeys(realInput)
+      let business = Day11.monkeyBusiness(monkeys, rounds: 20)
+      expect(business).to(equal(56595))
+    }
 
-      let mostActiveMonkeys = Array(monkeys.map(\.totalInspected).sorted().reversed())
-      expect(mostActiveMonkeys[0...1].reduce(1, *)).to(equal(56595))
+    it("part 2, test input") {
+      let monkeys = Day11.parseMonkeys(testInput)
+      let business = Day11.monkeyBusinessWithoutWorryReduction(monkeys, rounds: 10000)
+      expect(business).to(equal(2_713_310_158))
+    }
+
+    it("part 2, real input") {
+      let monkeys = Day11.parseMonkeys(realInput)
+      let business = Day11.monkeyBusinessWithoutWorryReduction(monkeys, rounds: 10000)
+      expect(business).to(equal(15_693_274_740))
     }
   }
 }
